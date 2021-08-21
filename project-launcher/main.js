@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Tray } = require('electron');
 
 const url = require("url");
 const path = require("path");
@@ -6,7 +6,9 @@ const path = require("path");
 let mainWindow
 
 function createWindow() {
+  const icon = new Tray ('./public/icons/icon.png');
   mainWindow = new BrowserWindow({
+    icon: './public/icons/icon.png',
     width: 800,
     height: 600,
     webPreferences: {
@@ -24,41 +26,9 @@ function createWindow() {
     })
   );
 
-  createMenu();
-
   mainWindow.on('closed', function () {
     mainWindow = null
   });
-}
-
-function createMenu() {
-
-  var menu = Menu.buildFromTemplate([
-      {
-          label: 'Menu',
-          submenu: [
-              {label:'Home',
-                click(){
-                  console.log("Navigate to Home");
-                  mainWindow.webContents.send('goToHome');
-
-                }
-            
-              },
-              {label:'About',                 
-              
-               click(){
-                console.log("Navigate to About");
-                mainWindow.webContents.send('goToAbout');
-              }},
-              {label:'Exit',                 
-               click() { 
-                app.quit() 
-              }}
-          ]
-      }
-  ])
-  Menu.setApplicationMenu(menu); 
 }
 
 console.log(app);
